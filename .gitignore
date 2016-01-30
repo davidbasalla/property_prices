@@ -15,3 +15,10 @@
 /log/*
 !/log/.keep
 /tmp
+db/pp-2006.csv
+db/pp-2009.csv
+db/pp-2010.csv
+db/pp-2011.csv
+db/pp-2012.csv
+db/pp-2013.csv
+db/pp-2014.csv
