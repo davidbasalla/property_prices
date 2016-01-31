@@ -1,17 +1,26 @@
+<p>
+  <%= form_tag sales_path, method: :get do %>
+    <%= "Potcode:" %>
+    <%= text_field_tag :search_postcode, params[:search_postcode] %>
+    <%= submit_tag "Search", name: nil %>
+  <% end %>
+</p>
+
 <h2>Sales for <%= @postcode %> (<%= @total_sales %> properties sold)</h2>
 
 <%= content_tag :canvas, "", id: "sales_chart", height: "450", width: "1280", data: {sales: @sales, ticks: @ticks} %>
 
+<h2>Individual Sales</h2>
 
-<% @sales_by_month.each do |date, sales| %>
+<% @sales_by_time_group.each_with_index do |(date, sales), index| %>
 
-  <h3><%= date %> Average: £<%= sales.sum {|s| s.amount }/sales.count %></h3>
+  <h3><%= @ticks[index.to_i] %> | Properties Sold: <%= sales.count %> | Average: £<%= sales.sum {|s| s.amount }/sales.count %></h3>
 
-  <table class="table">
+  <table class="table table-condensed table-striped table-hover">
     <thead>
       <tr>
         <th>Postcode</th>
-        <th>Amount</th>
+        <th>Amount (rounded to nearest 10000)</th>
         <th>Date</th>
         <th>Type</th>
       </tr>
@@ -20,7 +29,7 @@
     <% sales.each do |sale| %>
     <tr>
       <td><%= sale.postcode %></td>
-      <td>£<%= sale.amount %></td>
+      <td>£<%= sale.amount.round(-4) %></td>
       <td><%= sale.date %></td>
       <td><%= sale.property_type %></td>
     </tr>
