@@ -1,12 +1,25 @@
 <p>
   <%= form_tag sales_path, method: :get do %>
-    <%= "Potcode:" %>
+    <%= "Postcode:" %>
     <%= text_field_tag :search_postcode, params[:search_postcode] %>
+
+    <%= "Flats:" %>
+    <%= check_box_tag :toggle_flats, params[:toggle_flats], params[:toggle_flats] %>
+
+    <%= "Detached:" %>
+    <%= check_box_tag :toggle_detached, params[:toggle_detached], params[:toggle_detached] %>
+
+    <%= "Semi-Detached:" %>
+    <%= check_box_tag :toggle_semi_detached, params[:toggle_semi_detached], params[:toggle_semi_detached] %>
+
+    <%= "Terraced:" %>
+    <%= check_box_tag :toggle_terraced, params[:toggle_terraced], params[:toggle_terraced] %>
+
     <%= submit_tag "Search", name: nil %>
   <% end %>
 </p>
 
-<h2>Sales for <%= @postcode %> (<%= @total_sales %> properties sold)</h2>
+<h2>Sales for <%= postcode %> (<%= @total_sales %> properties sold)</h2>
 
 <%= content_tag :canvas, "", id: "sales_chart", height: "450", width: "1280", data: {sales: @sales, ticks: @ticks} %>
 
