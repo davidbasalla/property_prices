@@ -5,22 +5,17 @@ class Sale < ActiveRecord::Base
   scope :terraced, -> { where(property_type: "T") }
   scope :flats, -> { where(property_type: "F") }
   scope :other, -> { where(property_type: "O") }
-  scope :in_postcode, ->(postcode) { where("postcode ILIKE ?", "#{postcode}%") }
 
   def self.average_amount(sales)
     sales.map { |s| s.amount }
   end
 
-  def self.property_types(params)
-    Sale.where(property_types_where_values(params).join(" OR "))
+  def self.property_types(property_types)
+    Sale.where(property_types_where_values(property_types).join(" OR "))
   end
 
-  def self.property_types_where_values(params)
-    Sale.send_chained_where_values(params).where_values
-  end
-
-  def self.send_chained_where_values(arr)
-    arr.inject(self) {|o, a| o.send(:where, property_type_where_value(a)) }
+  def self.property_types_where_values(property_types)
+    property_types.map { |p| property_type_where_value(p) }
   end
 
   def self.property_type_where_value(arg)
@@ -36,5 +31,17 @@ class Sale < ActiveRecord::Base
     when "other"
       "property_type='O'"
     end
+  end
+
+  def self.in_postcodes(postcodes)
+    Sale.where(postcode_where_values(postcodes).join(" OR "))
+  end
+
+  def self.postcode_where_values(postcodes)
+    postcodes.map { |p| postcode_where_value(p) }
+  end
+
+  def self.postcode_where_value(postcode)
+    "postcode ~* '^#{postcode}[^a-zA-Z].*'"
   end
 end
