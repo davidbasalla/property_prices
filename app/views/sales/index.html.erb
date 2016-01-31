@@ -1,4 +1,29 @@
-<h1>Sales#index</h1>
-<p>Find me in app/views/sales/index.html.erb</p>
+<h2>Sales for <%= @postcode %> (<%= @total_sales %> properties sold)</h2>
 
-<canvas height="450" id="canvas" width="600"></canvas>
+<%= content_tag :canvas, "", id: "sales_chart", height: "450", width: "1280", data: {sales: @sales, ticks: @ticks} %>
+
+
+<% @sales_by_month.each do |date, sales| %>
+
+  <h3><%= date %> Average: £<%= sales.sum {|s| s.amount }/sales.count %></h3>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <td>postcode</td>
+        <td>amount</td>
+        <td>date</td>
+        <td>type</td>
+      </tr>
+    </thead>
+
+    <% sales.each do |sale| %>
+    <tr>
+      <td><%= sale.postcode %></td>
+      <td>£<%= sale.amount %></td>
+      <td><%= sale.date %></td>
+      <td><%= sale.property_type %></td>
+    </tr>
+    <% end %>
+  </table>
+<% end %>
