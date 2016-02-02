@@ -31,7 +31,7 @@ class SalesController < ApplicationController
   def postcodes
     return ["N1"] if params[:search_postcode].nil?
 
-    params[:search_postcode].split(",").map { |p| p.gsub(/\s+/, "") }
+    params[:search_postcode].split(",")
   end
 
   def property_type_params

@@ -1,3 +1,5 @@
+require "uk_postcode"
+
 class Sale < ActiveRecord::Base
 
   scope :detached, -> { where(property_type: "D") }
@@ -42,6 +44,16 @@ class Sale < ActiveRecord::Base
   end
 
   def self.postcode_where_value(postcode)
-    "postcode ~* '^#{postcode}[^a-zA-Z].*'"
+    pc = UKPostcode.parse(postcode)
+
+    if pc.full?
+      "postcode = '#{postcode}'"
+    elsif pc.area && pc.district && pc.sector
+      "postcode ~* '^#{postcode}[^0-9].*'"
+    elsif pc.area && pc.district
+      "postcode ~* '^#{postcode} .*'"
+    elsif pc.area
+      "postcode ~* '^#{postcode}[^a-zA-Z].*'"
+    end
   end
 end

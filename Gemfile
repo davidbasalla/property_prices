@@ -26,6 +26,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'chart-js-rails'
 
 gem "twitter-bootstrap-rails"
+
+gem "uk_postcode"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
