@@ -23,7 +23,15 @@
 
     <%= content_tag :div, class: "search-panel" do %>
       <%= "Frequency:" %> 
-      <%= select_tag :select_frequency, options_for_select(["Weekly", "Monthly", "Yearly"].collect{ |u| [u, u] }, "Monthly")%>
+      <%= select_tag :select_frequency, options_for_select(["Weekly", "Monthly", "Yearly"].collect{ |u| [u, u] }, frequency) %>
+    <% end %>
+
+    <%= content_tag :div, class: "search-panel" do %>
+      <%= "From:" %> 
+      <%= date_field_tag :start_date, start_date %>
+
+      <%= "To:" %> 
+      <%= date_field_tag :end_date, end_date %>
     <% end %>
 
     <%= submit_tag "Search", name: nil %>

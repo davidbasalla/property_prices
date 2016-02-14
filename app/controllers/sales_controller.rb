@@ -1,20 +1,21 @@
 class SalesController < ApplicationController
-  helper_method :postcodes
+  helper_method :postcodes, :start_date, :end_date, :frequency
 
   def index
     if time_format_monthly?
       @sales_by_time_group = sales.group_by { |s| s.date.beginning_of_month }
-      @ticks = Array(1..12).map { |n| Date::MONTHNAMES[n] }
     elsif time_format_weekly?
       @sales_by_time_group = sales.group_by { |s| s.date.beginning_of_week }
-      @ticks = @sales_by_time_group.keys
+    elsif time_format_yearly?
+      @sales_by_time_group = sales.group_by { |s| s.date.beginning_of_year }
     end
+    @ticks = @sales_by_time_group.keys
     @sales = average_sales
     @total_sales =  number_of_sales
   end
 
   def sales
-    Sale.property_types(property_type_params).in_postcodes(postcodes).order(:date)
+    Sale.time_frame(start_date, end_date).property_types(property_type_params).in_postcodes(postcodes).order(:date)
   end
 
   def average_sales
@@ -44,11 +45,26 @@ class SalesController < ApplicationController
   end
 
   def time_format_monthly?
-    return true if params["select_frequency"].nil?
-    params["select_frequency"] == "Monthly"
+    frequency == "Monthly"
   end
 
   def time_format_weekly?
-    params["select_frequency"] == "Weekly"
+    frequency == "Weekly"
+  end
+
+  def time_format_yearly?
+    frequency == "Yearly"
+  end
+
+  def start_date
+    params[:start_date].present? ? params[:start_date] : "2015-01-01"
+  end
+
+  def end_date
+    params[:end_date].present? ? params[:end_date] : "2015-12-31"
+  end
+
+  def frequency
+    params[:select_frequency].present? ? params[:select_frequency] : "Monthly"
   end
 end

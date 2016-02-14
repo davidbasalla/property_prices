@@ -7,6 +7,7 @@ class Sale < ActiveRecord::Base
   scope :terraced, -> { where(property_type: "T") }
   scope :flats, -> { where(property_type: "F") }
   scope :other, -> { where(property_type: "O") }
+  scope :time_frame, -> (start_date, end_date) { where("date >= '#{start_date}' AND date <= '#{end_date}'") }
 
   def self.average_amount(sales)
     sales.map { |s| s.amount }
