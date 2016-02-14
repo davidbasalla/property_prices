@@ -9,8 +9,10 @@ class Importer
   end
 
   def import
-    entries.each do |e|
-      klass.new(e).save
+    ActiveRecord::Base.transaction do
+      entries.each do |e|
+        klass.new(e).save
+      end
     end
   end
 
