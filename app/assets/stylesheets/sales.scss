@@ -4,6 +4,41 @@
 
 .search-panel {
   display: inline;
-  padding-left: 20px;
   padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.date-field {
+  line-height: inherit !important;
+}
+
+#sales_chart {
+    width: 300px;
+
+    @media screen and (min-width: 375px) {
+        width: 300px;
+    }
+
+    @media screen and (min-width: 450px) {
+        width: 400px;
+    }
+
+    @media screen and (min-width: 700px) {
+        width: 700px;
+    }
+
+    @media screen and (min-width: 1024px) {
+        width: 1000px;
+    }
+
+    @media screen and (min-width: 1280) {
+        width: 1200px;
+    }
+
+    @media screen and (min-width: 1920) {
+        width: 1800px;
+    }
 }

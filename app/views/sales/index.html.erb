@@ -1,8 +1,10 @@
 <p>
   <%= form_tag sales_path, method: :get do %>
-    <%= "Postcode:" %>
-    <%= text_field_tag :search_postcode, params[:search_postcode] || "N1" %>
 
+    <%= content_tag :div, class: "search-panel" do %>
+      <%= "Postcode:" %>
+      <%= text_field_tag :search_postcode, params[:search_postcode] || "N1" %>
+    <% end %>
 
     <%= content_tag :div, class: "search-panel" do %>
       <%= "Flats:" %>
@@ -28,10 +30,10 @@
 
     <%= content_tag :div, class: "search-panel" do %>
       <%= "From:" %> 
-      <%= date_field_tag :start_date, start_date %>
+      <%= date_field_tag :start_date, start_date, class: "date-field" %>
 
       <%= "To:" %> 
-      <%= date_field_tag :end_date, end_date %>
+      <%= date_field_tag :end_date, end_date, class: "date-field" %>
     <% end %>
 
     <%= submit_tag "Search", name: nil %>
@@ -40,4 +42,4 @@
 
 <h2>Sales for <%= postcodes.join(", ") %> (<%= @total_sales %> properties sold)</h2>
 
-<%= content_tag :canvas, "", id: "sales_chart", height: "450", width: "1280", data: {sales: @sales, ticks: @ticks} %>
+<%= content_tag :canvas, "", id: "sales_chart", data: {sales: @sales, ticks: @ticks} %>
