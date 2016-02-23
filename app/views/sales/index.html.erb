@@ -7,6 +7,11 @@
     <% end %>
 
     <%= content_tag :div, class: "search-panel" do %>
+      <%= "Address (eg Street):" %>
+      <%= text_field_tag :search_street, params[:search_street] || "" %>
+    <% end %>
+
+    <%= content_tag :div, class: "search-panel" do %>
       <%= "Flats:" %>
       <%= check_box_tag :toggle_flats, params[:toggle_flats], params[:toggle_flats] %>
 

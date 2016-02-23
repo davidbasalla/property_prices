@@ -15,7 +15,11 @@ class SalesController < ApplicationController
   end
 
   def sales
-    Sale.time_frame(start_date, end_date).property_types(property_type_params).in_postcodes(postcodes).order(:date)
+    Sale.time_frame(start_date, end_date)
+        .property_types(property_type_params)
+        .in_postcodes(postcodes)
+        .in_street(params[:search_street])
+        .order(:date)
   end
 
   def average_sales

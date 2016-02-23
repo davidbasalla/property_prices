@@ -8,6 +8,7 @@ class Sale < ActiveRecord::Base
   scope :flats, -> { where(property_type: "F") }
   scope :other, -> { where(property_type: "O") }
   scope :time_frame, -> (start_date, end_date) { where("date >= '#{start_date}' AND date <= '#{end_date}'") }
+  scope :in_street, -> (street){ where("street ILIKE '%#{street}%'")}
 
   def self.average_amount(sales)
     sales.map { |s| s.amount }
