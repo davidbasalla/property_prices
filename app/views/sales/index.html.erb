@@ -1,48 +1,58 @@
 <p>
-  <%= form_tag sales_path, method: :get do %>
+  <div class="well">
+    <%= form_tag sales_path, method: :get do %>
+      <div class="form-group">
+      <p>
+      <%= content_tag :div, class: "search-panel" do %>
+        <label for="postcodeInput">Postcode: </label>
+        <%= text_field_tag :search_postcode, params[:search_postcode] || "N1", id: "postcodeInput" %>
+      <% end %>
 
-    <%= content_tag :div, class: "search-panel" do %>
-      <%= "Postcode:" %>
-      <%= text_field_tag :search_postcode, params[:search_postcode] || "N1" %>
+      <%= content_tag :div, class: "search-panel" do %>
+        <label for="streetInput">Street:</label>
+        <%= text_field_tag :search_street, params[:search_street] || "", id: "streetInput" %>
+      <% end %>
+
+      <%= content_tag :div, class: "search-panel checkbox" do %>
+        <% ["flats", "detached", "semi_detached", "terraced", "other"].each do |property_type| %>
+          <label for="<%= property_type.camelize %>Toggle" class="checkbox-inline">
+            <%= check_box_tag property_type, 
+                              params[property_type],
+                              property_type_params.include?(property_type),
+                              id: "#{property_type.camelize}Toggle" %>
+            <%= property_type.humanize %>
+          </label>
+        <% end %>
+      <% end %>
+      </p>
+
+      <p>
+      <%= content_tag :div, class: "search-panel" do %>
+        <label for="fromInput">From:</label>
+        <%= date_field_tag :start_date, start_date, class: "date-field", id: "fromInput", min: "2006-01-01", max: "2015-12-31" %>
+
+        <label for="toInput">To:</label>
+        <%= date_field_tag :end_date, end_date, class: "date-field", id: "toInput", min: "2006-01-01", max: "2015-12-31" %>
+      <% end %>
+
+      <%= content_tag :div, class: "search-panel radio" do %>
+        <% ["weekly", "monthly", "yearly"].each do |time_step| %>
+          <label for="freqToggle<%= time_step.humanize%>" class="radio-inline">
+            <%= radio_button_tag :freq_toggle,
+                                 time_step,
+                                 @frequency == time_step,
+                                 id: "freqToggle#{time_step.humanize}",
+                                 name: "frequency" %>
+            <%= time_step.humanize %>
+          </label>
+        <% end %>
+      <% end %>
+
+      <%= submit_tag "Search", name: nil, class: "btn btn-default" %>
+      </p>
     <% end %>
-
-    <%= content_tag :div, class: "search-panel" do %>
-      <%= "Address (eg Street):" %>
-      <%= text_field_tag :search_street, params[:search_street] || "" %>
-    <% end %>
-
-    <%= content_tag :div, class: "search-panel" do %>
-      <%= "Flats:" %>
-      <%= check_box_tag :toggle_flats, params[:toggle_flats], params[:toggle_flats] %>
-
-      <%= "Detached:" %>
-      <%= check_box_tag :toggle_detached, params[:toggle_detached], params[:toggle_detached] %>
-
-      <%= "Semi-Detached:" %>
-      <%= check_box_tag :toggle_semi_detached, params[:toggle_semi_detached], params[:toggle_semi_detached] %>
-
-      <%= "Terraced:" %>
-      <%= check_box_tag :toggle_terraced, params[:toggle_terraced], params[:toggle_terraced] %>
-
-      <%= "Other:" %>
-      <%= check_box_tag :toggle_terraced, params[:toggle_terraced], params[:toggle_terraced] %>
-    <% end %>
-
-    <%= content_tag :div, class: "search-panel" do %>
-      <%= "Frequency:" %> 
-      <%= select_tag :select_frequency, options_for_select(["Weekly", "Monthly", "Yearly"].collect{ |u| [u, u] }, frequency) %>
-    <% end %>
-
-    <%= content_tag :div, class: "search-panel" do %>
-      <%= "From:" %> 
-      <%= date_field_tag :start_date, start_date, class: "date-field" %>
-
-      <%= "To:" %> 
-      <%= date_field_tag :end_date, end_date, class: "date-field" %>
-    <% end %>
-
-    <%= submit_tag "Search", name: nil %>
-  <% end %>
+    </div>
+  </div>
 </p>
 
 <h2>Sales for <%= postcodes.join(", ") %> (<%= @total_sales %> properties sold)</h2>

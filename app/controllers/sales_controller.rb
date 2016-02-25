@@ -1,7 +1,9 @@
 class SalesController < ApplicationController
-  helper_method :postcodes, :start_date, :end_date, :frequency
+  helper_method :postcodes, :start_date, :end_date, :frequency, :property_type_params
 
   def index
+    @frequency = params[:frequency] || "monthly"
+
     if time_format_monthly?
       @sales_by_time_group = sales.group_by { |s| s.date.beginning_of_month }
     elsif time_format_weekly?
@@ -41,23 +43,23 @@ class SalesController < ApplicationController
 
   def property_type_params
     types = []
-    types << "flats" if params["toggle_flats"]
-    types << "detached" if params["toggle_detached"]
-    types << "semi_detached" if params["toggle_semi_detached"]
-    types << "terraced" if params["toggle_terraced"]
+    types << "flats" if params["flats"]
+    types << "detached" if params["detached"]
+    types << "semi_detached" if params["semi_detached"]
+    types << "terraced" if params["terraced"]
     types.empty? ? ["flats"] : types
   end
 
   def time_format_monthly?
-    frequency == "Monthly"
+    @frequency == "monthly"
   end
 
   def time_format_weekly?
-    frequency == "Weekly"
+    @frequency == "weekly"
   end
 
   def time_format_yearly?
-    frequency == "Yearly"
+    @frequency == "yearly"
   end
 
   def start_date
