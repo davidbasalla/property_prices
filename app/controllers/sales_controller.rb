@@ -13,7 +13,8 @@ class SalesController < ApplicationController
     end
     @ticks = @sales_by_time_group.keys
     @sales = average_sales
-    @total_sales =  number_of_sales
+    @total_sales = number_of_sales
+    @counts = counts.map { |c| c * count_multiplier }
   end
 
   def sales
@@ -25,10 +26,20 @@ class SalesController < ApplicationController
   end
 
   def average_sales
-    @sales_by_time_group.map do | start_of_time, sales_of_time_group |
+    @_sales ||= @sales_by_time_group.map do | start_of_time, sales_of_time_group |
       sum = sales_of_time_group.sum { |s| s.amount }
       average = sum/sales_of_time_group.count
     end
+  end
+
+  def counts
+    @_counts ||= @sales_by_time_group.map do | _, sales_of_time_group |
+      sales_of_time_group.count
+    end
+  end
+
+  def count_multiplier
+    @_count_mult ||= average_sales.min / counts.max
   end
 
   def number_of_sales

@@ -58,5 +58,8 @@
 <h2>Sales for <%= postcodes.join(", ") %> (<%= @total_sales %> properties sold)</h2>
 
 <div id="container">
-  <%= content_tag :canvas, "", id: "sales_chart", data: {sales: @sales, ticks: @ticks} %>
+  <%= content_tag :canvas, 
+                  "",
+                  id: "sales_chart",
+                  data: { sales: @sales, ticks: @ticks, counts: @counts } %>
 </div>

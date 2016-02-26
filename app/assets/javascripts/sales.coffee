@@ -7,15 +7,27 @@ jQuery ->
     labels : $('#sales_chart').data('ticks'),
     datasets : [
       {
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
-        pointColor: "rgba(151,187,205,1)",
+        type:'line',
+        borderColor: "rgba(151,187,205,1)",
+        label: "Average Property Sale Price",
+        backgroundColor: "rgba(151,187,205,0.2)",
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(151,187,205,1)",
         data : $('#sales_chart').data('sales')
-      }
+      },
+      {
+        type:'bar',
+        label: "Units sold (relative, not to scale)",
+        borderColor: "rgba(255, 153, 0, 1)",
+        backgroundColor: "rgba(255, 153, 0, 0.4)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(151,187,205,1)",
+        data : $('#sales_chart').data('counts')
+      },
     ]
   }
 
-  myNewChart = new Chart($("#sales_chart").get(0).getContext("2d")).Line(data, {responsive: true, scaleBeginAtZero: true})
+  ctx = $("#sales_chart").get(0).getContext("2d")
+  myNewChart = new Chart(ctx, { type: "bar", data: data, scaleBeginAtZero: true })
