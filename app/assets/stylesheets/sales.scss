@@ -24,8 +24,7 @@ p {
   line-height: inherit !important;
 }
 
-#sales_chart {
-    width: 300px;
+#container {
 
     @media screen and (min-width: 375px) {
         width: 300px;

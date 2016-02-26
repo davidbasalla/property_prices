@@ -16,4 +16,4 @@ jQuery ->
     ]
   }
 
-  myNewChart = new Chart($("#sales_chart").get(0).getContext("2d")).Line(data)
+  myNewChart = new Chart($("#sales_chart").get(0).getContext("2d")).Line(data, {responsive: true})
