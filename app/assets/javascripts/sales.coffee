@@ -7,13 +7,15 @@ jQuery ->
     labels : $('#sales_chart').data('ticks'),
     datasets : [
       {
-        fillColor : "rgba(220,220,220,0.5)",
-        strokeColor : "rgba(220,220,220,1)",
-        pointColor : "rgba(220,220,220,1)",
-        pointStrokeColor : "#fff",
+        fillColor: "rgba(151,187,205,0.2)",
+        strokeColor: "rgba(151,187,205,1)",
+        pointColor: "rgba(151,187,205,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(151,187,205,1)",
         data : $('#sales_chart').data('sales')
       }
     ]
   }
 
-  myNewChart = new Chart($("#sales_chart").get(0).getContext("2d")).Line(data, {responsive: true})
+  myNewChart = new Chart($("#sales_chart").get(0).getContext("2d")).Line(data, {responsive: true, scaleBeginAtZero: true})
