@@ -2,7 +2,7 @@ class SalesController < ApplicationController
   helper_method :postcodes, :start_date, :end_date, :frequency, :property_type_params
 
   def index
-    @frequency = params[:frequency] || "monthly"
+    @frequency = params[:frequency] || "weekly"
 
     if time_format_monthly?
       @sales_by_time_group = sales.group_by { |s| s.date.beginning_of_month }
@@ -74,7 +74,7 @@ class SalesController < ApplicationController
   end
 
   def start_date
-    params[:start_date].present? ? params[:start_date] : "2015-01-01"
+    params[:start_date].present? ? params[:start_date] : "2015-09-01"
   end
 
   def end_date
