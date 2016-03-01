@@ -2,6 +2,10 @@ class SalesController < ApplicationController
   helper_method :postcodes, :start_date, :end_date, :frequency, :property_type_params
 
   def index
+
+  end
+
+  def graph
     @frequency = params[:frequency] || "weekly"
 
     if time_format_monthly?

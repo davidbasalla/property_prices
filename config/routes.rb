@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
-  root 'sales#index'
+  root 'sales#graph'
 
+  get 'graph' => 'sales#graph'
   resources :sales
 
   # The priority is based upon order of creation: first created -> highest priority.

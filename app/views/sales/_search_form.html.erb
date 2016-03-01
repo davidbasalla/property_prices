@@ -1,0 +1,55 @@
+<div class="well">
+  <!-- TODO - make this dependent on local -->
+  <%= form_tag "/graph", method: :get do %>
+    <div class="form-group">
+    <p>
+    <%= content_tag :div, class: "search-panel" do %>
+      <label for="postcodeInput">Postcode: </label>
+      <%= text_field_tag :search_postcode, params[:search_postcode] || "N1", id: "postcodeInput" %>
+    <% end %>
+
+    <%= content_tag :div, class: "search-panel" do %>
+      <label for="streetInput">Street:</label>
+      <%= text_field_tag :search_street, params[:search_street] || "", id: "streetInput" %>
+    <% end %>
+
+    <%= content_tag :div, class: "search-panel checkbox" do %>
+      <% ["flats", "detached", "semi_detached", "terraced", "other"].each do |property_type| %>
+        <label for="<%= property_type.camelize %>Toggle" class="checkbox-inline">
+          <%= check_box_tag property_type, 
+                            params[property_type],
+                            property_type_params.include?(property_type),
+                            id: "#{property_type.camelize}Toggle" %>
+          <%= property_type.humanize %>
+        </label>
+      <% end %>
+    <% end %>
+    </p>
+
+    <p>
+    <%= content_tag :div, class: "search-panel" do %>
+      <label for="fromInput">From:</label>
+      <%= date_field_tag :start_date, start_date, class: "date-field", id: "fromInput", min: "2006-01-01", max: "2015-12-31" %>
+
+      <label for="toInput">To:</label>
+      <%= date_field_tag :end_date, end_date, class: "date-field", id: "toInput", min: "2006-01-01", max: "2015-12-31" %>
+    <% end %>
+
+    <%= content_tag :div, class: "search-panel radio" do %>
+      <% ["weekly", "monthly", "yearly"].each do |time_step| %>
+        <label for="freqToggle<%= time_step.humanize%>" class="radio-inline">
+          <%= radio_button_tag :freq_toggle,
+                               time_step,
+                               @frequency == time_step,
+                               id: "freqToggle#{time_step.humanize}",
+                               name: "frequency" %>
+          <%= time_step.humanize %>
+        </label>
+      <% end %>
+    <% end %>
+
+    <%= submit_tag "Search", name: nil, class: "btn btn-default" %>
+    </p>
+  <% end %>
+  </div>
+</div>
