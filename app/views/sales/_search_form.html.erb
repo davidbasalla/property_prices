@@ -35,16 +35,18 @@
       <%= date_field_tag :end_date, end_date, class: "date-field", id: "toInput", min: "2006-01-01", max: "2015-12-31" %>
     <% end %>
 
-    <%= content_tag :div, class: "search-panel radio" do %>
-      <% ["weekly", "monthly", "yearly"].each do |time_step| %>
-        <label for="freqToggle<%= time_step.humanize%>" class="radio-inline">
-          <%= radio_button_tag :freq_toggle,
-                               time_step,
-                               @frequency == time_step,
-                               id: "freqToggle#{time_step.humanize}",
-                               name: "frequency" %>
-          <%= time_step.humanize %>
-        </label>
+    <% if time_group_lookup %>
+      <%= content_tag :div, class: "search-panel radio" do %>
+        <% ["weekly", "monthly", "yearly"].each do |time_step| %>
+          <label for="freqToggle<%= time_step.humanize%>" class="radio-inline">
+            <%= radio_button_tag :freq_toggle,
+                                 time_step,
+                                 @frequency == time_step,
+                                 id: "freqToggle#{time_step.humanize}",
+                                 name: "frequency" %>
+            <%= time_step.humanize %>
+          </label>
+        <% end %>
       <% end %>
     <% end %>
 

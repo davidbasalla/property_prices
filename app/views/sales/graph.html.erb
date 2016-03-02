@@ -1,5 +1,5 @@
 <p>
-  <%= render partial: "search_form", locals: { form_url: "/graph"} %>
+  <%= render partial: "search_form", locals: { form_url: "/graph", time_group_lookup: true } %>
 </p>
 
 <h2>Sales for <%= postcodes.join(", ") %> (<%= @total_sales %> properties sold)</h2>
