@@ -1,7 +1,27 @@
 <p>
-  <%= render "search_form" %>
+  <%= render partial: "search_form", locals: { form_url: "/sales" } %>
 </p>
 
 <h2>Sales for <%= postcodes.join(", ") %> (<%= @total_sales %> properties sold)</h2>
 
-WIP
+<table class="table">
+<thead>
+  <tr>
+    <th>Date</th>
+    <th>Street</th>
+    <th>Postcode</th>
+    <th>Town or City</th>
+    <th>Amount</th>
+  </tr>
+</thead>
+
+<% @sales.each do |sale| %>
+<tr>
+  <td><%= sale.date %></td>
+  <td><%= sale.street %></td>
+  <td><%= sale.postcode %></td>
+  <td><%= sale.town_city %></td>
+  <td><%= sale.amount %></td>
+</tr>
+<% end %>
+</table>

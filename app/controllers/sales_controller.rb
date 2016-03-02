@@ -2,12 +2,21 @@ class SalesController < ApplicationController
   helper_method :postcodes, :start_date, :end_date, :frequency, :property_type_params
 
   def index
-
+    @sales = sales
   end
 
   def graph
     @frequency = params[:frequency] || "weekly"
 
+    sales_by_time_group
+
+    @ticks = @sales_by_time_group.keys
+    @sales = average_sales
+    @total_sales = number_of_sales
+    @counts = counts.map { |c| c * count_multiplier }
+  end
+
+  def sales_by_time_group
     if time_format_monthly?
       @sales_by_time_group = sales.group_by { |s| s.date.beginning_of_month }
     elsif time_format_weekly?
@@ -15,10 +24,6 @@ class SalesController < ApplicationController
     elsif time_format_yearly?
       @sales_by_time_group = sales.group_by { |s| s.date.beginning_of_year }
     end
-    @ticks = @sales_by_time_group.keys
-    @sales = average_sales
-    @total_sales = number_of_sales
-    @counts = counts.map { |c| c * count_multiplier }
   end
 
   def sales

@@ -1,5 +1,5 @@
 <p>
-  <%= render "search_form" %>
+  <%= render partial: "search_form", locals: { form_url: "/graph"} %>
 </p>
 
 <h2>Sales for <%= postcodes.join(", ") %> (<%= @total_sales %> properties sold)</h2>
