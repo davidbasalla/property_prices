@@ -10,6 +10,8 @@ class Sale < ActiveRecord::Base
   scope :time_frame, -> (start_date, end_date) { where("date >= '#{start_date}' AND date <= '#{end_date}'") }
   scope :in_street, -> (street){ where("street ILIKE '%#{street}%'")}
 
+  self.per_page = 20
+
   def self.average_amount(sales)
     sales.map { |s| s.amount }
   end

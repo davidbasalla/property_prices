@@ -2,7 +2,7 @@ class SalesController < ApplicationController
   helper_method :postcodes, :start_date, :end_date, :frequency, :property_type_params
 
   def index
-    @sales = sales
+    @sales = sales.paginate(:page => params[:page])
   end
 
   def graph
